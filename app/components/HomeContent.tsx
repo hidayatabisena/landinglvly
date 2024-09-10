@@ -45,7 +45,7 @@ const HomeContent: React.FC = () => {
         }
       }
     }
-  }, [sections]);
+  }, [sections, isFetchingDown, isFetchingUp, setIsFetchingDown, setIsFetchingUp]);
 
   // initial scroll to middle of the page so it's more centered
   useEffect(() => {
@@ -56,7 +56,7 @@ const HomeContent: React.FC = () => {
         window.scrollTo(0, middleElement.offsetTop - window.innerHeight / 2);
       }
     }
-  }, []);
+  }, [sections.length]);
 
   return (
     <main ref={contentRef}>
