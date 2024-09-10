@@ -60,7 +60,7 @@ const HomeContent: React.FC = () => {
 
   return (
     <main ref={contentRef}>
-      {sections.map((section, index) => (
+      {sections.map((section) => (
         <HeroSection key={section} />
       ))}
     </main>

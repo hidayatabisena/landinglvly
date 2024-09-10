@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const SCROLL_THRESHOLD = 1000; // this is the threshold for the scroll by pixels
 
@@ -11,10 +11,26 @@ const useInfiniteScroll = (
   const [isFetchingDown, setIsFetchingDown] = useState(false);
   const [isFetchingUp, setIsFetchingUp] = useState(false);
 
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+
+    // check downward scroll
+    if (scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD && !isFetchingDown) {
+      setIsFetchingDown(true);
+    }
+
+    // check upward scroll
+    if (scrollTop <= SCROLL_THRESHOLD && !isFetchingUp) {
+      setIsFetchingUp(true);
+    }
+  }, [isFetchingDown, isFetchingUp]);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     if (!isFetchingDown) return;
@@ -26,23 +42,8 @@ const useInfiniteScroll = (
     callbackUp();
   }, [isFetchingUp, callbackUp]);
 
-  function handleScroll() {
-    const scrollTop = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-
-    // Check for downward scroll
-    if (scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD && !isFetchingDown) {
-      setIsFetchingDown(true);
-    }
-
-    // Check for upward scroll
-    if (scrollTop <= SCROLL_THRESHOLD && !isFetchingUp) {
-      setIsFetchingUp(true);
-    }
-  }
-
   return [isFetchingDown, setIsFetchingDown, isFetchingUp, setIsFetchingUp] as const;
 };
 
 export default useInfiniteScroll;
+
