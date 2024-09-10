@@ -2,11 +2,15 @@
 
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { useTheme } from 'next-themes';
 import styles from '../styles/HeroSection.module.css';
-
 
 const HeroSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { theme, systemTheme } = useTheme();
+
+  // Determine the actual theme (account for 'system' setting)
+  const currentTheme = theme === 'system' ? systemTheme : theme;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -25,7 +29,10 @@ const HeroSection: React.FC = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className={styles.heroSection}>
+    <div 
+      ref={sectionRef} 
+      className={`${styles.heroSection} ${currentTheme === 'dark' ? styles.dark : styles.light}`}
+    >
       <h1 className={styles.title}>About <span className={styles.asterisk}>*</span>me</h1>
       <div className={styles.tag}>Frontend Dev</div>
       <p className={styles.greeting}>Hey there, I'm Nadia Lovely! 👋</p>
