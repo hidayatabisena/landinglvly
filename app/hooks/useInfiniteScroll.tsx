@@ -12,7 +12,7 @@ const useInfiniteScroll = (
   const [isFetchingUp, setIsFetchingUp] = useState(false);
 
   const handleScroll = useCallback(() => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollTop = window.scrollY;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
 
