@@ -1,0 +1,21 @@
+.loadingIndicatorTop,
+.loadingIndicatorBottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  z-index: 1000;
+}
+
+.loadingIndicatorTop {
+  top: 0;
+}
+
+.loadingIndicatorBottom {
+  bottom: 0;
+}
